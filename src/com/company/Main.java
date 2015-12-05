@@ -6,14 +6,16 @@ public class Main {
         try {
             System.out.println("Fifty Fifty Resolver");
 
-            ResolverThread thread = new ResolverThread("http://true5050.com/2H0Il");
+            ClipBoardManager clipBoard = new ClipBoardManager();
+
+            ResolverThread thread = new ResolverThread(clipBoard.getClipboardContents());
             thread.start();
             synchronized (thread) {
                 thread.wait();
             }
             System.out.println(thread.getFiftyfifty());
-            System.out.println(thread.getAdrs1());
-            System.out.println(thread.getAdrs2());
+            System.out.println("\t" + thread.getAdrs1());
+            System.out.println("\t" + thread.getAdrs2());
             thread.kill();
 
         } catch (InterruptedException e) {

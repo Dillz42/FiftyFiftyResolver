@@ -20,6 +20,9 @@ public class ResolverThread extends Thread{
     }
 
     public void run(){
+        if(!fiftyfifty.matches("http://true5050[.]com/.*"))
+            return; //Not a true 5050 url!
+
         solveTime = System.currentTimeMillis();
         synchronized (this) {
             try {
@@ -49,8 +52,14 @@ public class ResolverThread extends Thread{
 
         int responseCode = con.getResponseCode();
 
+        if(con.getResponseCode() == 302){
+            BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+            String response = br.readLine();
+            return response.substring(35, response.length()-31);
+        }
         if(con.getResponseCode() != 200)
             System.out.println("Response Code : " + responseCode + " on url: " + url);
+
 
         return con.getURL().toString();
 
